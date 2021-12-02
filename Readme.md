@@ -20,15 +20,15 @@ $ ./a.out
 
 ## Good to know
 
-The general idea behind the program is to make it look as much closer to a lift as possibe. I guess that's why it is called a simulation :)
-But this is something somehow a bit different. There are some tipic rules. For instance you can not enter inside the elevator when you call it and it comes to you unless it is going the direction you want to go. If you are going up and the elevator is going down, you can not enter. It takes a maximum of 10 passengers and each passenger has one trip each as defined per these global variables: `#define PASSENGERS 10` and `#define TRIPS_PER_PASSENGER 1`
+The general idea behind the program is to make it look as much closer to a elevator as possibe. I guess that's why it is called a simulation :)
+But this is something somehow a bit different. There are some topic rules. For instance you can not enter inside the elevator when you call it and it comes to you unless it is going the direction you want to go. If you are going up and the elevator is going down, you can not enter. It takes a maximum of 10 passengers and each passenger has one trip each as defined per these global variables: `#define PASSENGERS 10` and `#define TRIPS_PER_PASSENGER 1`
 
 
 ***
 ## Approach
 
-As long as the approach is concerned I think the code is self-explanatory and the comments also help break through and understand what is going on.
-But I am gonna list the key points here and also how we went to ideationa and concluding to the approach.
+As long as the approach is concernedthe code is self-explanatory and the comments also help break through and understand what is going on.
+We will list the key points here and also how we went to ideationa and concluding to the approach.
 Our first meeting was just an ideation one where we tried to understand the problem first and discuss some random thoughts on how we can break it down. Liplan was leading the meeting and we come up with three main points:
 - `Bello` suggested that we make use of functions for each the passengers and elevator. 
 - Then liplan added to that we can define the threads inside the main function and call those functions mentionned by Bello to combine the work. But now the biggest question was how can we make it move like the elevator?
@@ -68,5 +68,4 @@ Then we had a second meeting and here is a summary of how it went: <br>
 <br>
 
 <h2 align="center"> And Voila! We are done!</h2>
-
 
