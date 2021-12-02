@@ -35,7 +35,9 @@ Our first meeting was just an ideation one where we tried to understand the prob
 - That's when `Cédric` stepped up and suggested that we make use of structs for easy management of the passengers.
 We wrapped up on that meeting and gave a general task to thing of how best we can use what we have discussed to come up with a solid and strong logic to make it work.
 <br>
-Then we had a second meeting and here is a summary of how it went:
+
+Then we had a second meeting and here is a summary of how it went: <br>
+
 - `Bello` added on Ced's idea of structs and suggested that we add inside our structs the status of the passengers. Since this is gonna be random we will have `Waiting`, `Entered` and `Exited`. Those are the three possible stages.
 - `Serge` asked about the threads and suggested that we initiate them directly inside the struct.
 - `Liplan` walked us through how he would think of the Elevator thread inside the struct as well as the different statuses of the elevator.
