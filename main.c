@@ -14,7 +14,7 @@
    also be passed in using gcc flags, e.g. -DELEVATORS=5 */
 
 #ifndef MAX_CAPACITY
-#define MAX_CAPACITY 2
+#define MAX_CAPACITY 10
 #endif
 
 #ifndef ELEVATORS
@@ -143,7 +143,7 @@ void passenger_request(int passenger, int from_floor, int to_floor,
     //log(3, "Assigned p for %d!\n", passenger);
     passengers[passenger].state = WAITING;
     passenger_count++;
-    //log(3, "\n\n\n\nPassenger COUNT: %d\n\n\n\n", passenger_count);
+    //log(3, "\n\nPassenger COUNT: %d\n\n", passenger_count);
     // if (passenger_count == 50) {
     // }
 
@@ -243,7 +243,7 @@ void elevator_check(int elevator)
     if (elevators[elevator].passengers > MAX_CAPACITY || elevators[elevator].passengers < 0)
     {
         // log(0, "VIOLATION: elevator %d over capacity, or negative passenger count %d!\n", elevator, elevators[elevator].passengers);
-        printf("VIOLATION: elevator %d over capacity, or negative passenger count %d!\n", elevator, elevators[elevator].passengers);
+        printf("VIOLATION: elevator %d over capacity, or negative passenger count %d!\n\n", elevator, elevators[elevator].passengers);
         exit(1);
     }
     elevators[elevator].last_action_seqno = elevators[elevator].seqno;
@@ -406,7 +406,7 @@ void *start_passenger(void *arg)
     {
         p->to_floor = random() % FLOORS;
 
-        printf("Passenger %lu requesting %d->%d\n",
+        printf("Passenger %lu requesting from floor %d to %d\n",
                passenger, p->from_floor, p->to_floor);
 
         struct timeval before;
@@ -417,54 +417,15 @@ void *start_passenger(void *arg)
         gettimeofday(&after, 0);
         int ms = (after.tv_sec - before.tv_sec) * 1000 + (after.tv_usec - before.tv_usec) / 1000;
         // log(1, "Passenger %lu trip duration %d ms, %d slots\n", passenger, ms, ms * 1000 / DELAY);
-        printf("Passenger %lu trip duration %d ms, %d slots\n", passenger, ms, ms * 1000 / DELAY);
+        printf("\n\nPassenger %lu arrived!\n\n", passenger);
 
         p->from_floor = p->to_floor;
         usleep(10000);
     }
 }
 
-void *draw_state(void *ptr)
-{
-    while (1)
-    {
-        printf("\033[2J\033[1;1H");
-        for (int floor = FLOORS - 1; floor >= 0; floor--)
-        {
-            printf("%d\t", floor);
-            for (int el = 0; el < ELEVATORS; el++)
-            {
-
-                if (elevators[el].floor == floor)
-                    printf(" %c ", (elevators[el].open ? 'O' : '_'));
-                else
-                    printf(" %c ", elevators[el].floor > floor ? '|' : ' ');
-            }
-            int align = 5 * ELEVATORS;
-            for (int p = 0; p < PASSENGERS; p++)
-                if ((passengers[p].state == ENTERED && elevators[passengers[p].in_elevator].floor == floor))
-                {
-                    align -= 5;
-                    printf("->%02d ", passengers[p].to_floor);
-                }
-            while (align-- > 0)
-                printf(" ");
-            printf("X ");
-            for (int p = 0; p < PASSENGERS; p++)
-                if ((passengers[p].from_floor == floor && passengers[p].state == WAITING))
-                {
-                    printf("->%d ", passengers[p].to_floor);
-                }
-            printf("\n");
-        }
-        usleep(DELAY);
-    }
-}
-
 int main(int argc, char **argv)
 {
-    struct timeval before;
-    gettimeofday(&before, 0);
 
     scheduler_init();
 
@@ -483,7 +444,6 @@ int main(int argc, char **argv)
         pthread_create(&elevator_t[i], NULL, start_elevator, (void *)i);
     }
 
-    pthread_t draw_t;
     // pthread_create(&draw_t, NULL, draw_state, NULL);
 
     /* wait for all trips to complete */
@@ -493,11 +453,6 @@ int main(int argc, char **argv)
     for (int i = 0; i < ELEVATORS; i++)
         pthread_join(elevator_t[i], NULL);
 
-    struct timeval after;
-    gettimeofday(&after, 0);
-
     printf("All %d passengers finished their %d trips each.\n", PASSENGERS, TRIPS_PER_PASSENGER);
-    int ms = (after.tv_sec - before.tv_sec) * 1000 + (after.tv_usec - before.tv_usec) / 1000;
-    printf("Total time elapsed: %d ms, %d slots\n", ms, ms * 1000 / DELAY);
     return 0;
 }
