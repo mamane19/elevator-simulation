@@ -14,7 +14,7 @@
    also be passed in using gcc flags, e.g. -DELEVATORS=5 */
 
 #ifndef MAX_CAPACITY
-#define MAX_CAPACITY 5
+#define MAX_CAPACITY 2
 #endif
 
 #ifndef ELEVATORS
@@ -22,15 +22,15 @@
 #endif
 
 #ifndef FLOORS
-#define FLOORS 8
+#define FLOORS 4
 #endif
 
 #ifndef PASSENGERS
-#define PASSENGERS 10
+#define PASSENGERS 1
 #endif
 
 #ifndef TRIPS_PER_PASSENGER
-#define TRIPS_PER_PASSENGER 3
+#define TRIPS_PER_PASSENGER 1
 #endif
 
 // these settings affect only the 'looks', will be tested at log level 1
@@ -440,7 +440,6 @@ void *draw_state(void *ptr)
                 else
                     printf(" %c ", elevators[el].floor > floor ? '|' : ' ');
             }
-            printf("    ");
             int align = 5 * ELEVATORS;
             for (int p = 0; p < PASSENGERS; p++)
                 if ((passengers[p].state == ENTERED && elevators[passengers[p].in_elevator].floor == floor))
@@ -485,7 +484,7 @@ int main(int argc, char **argv)
     }
 
     pthread_t draw_t;
-    pthread_create(&draw_t, NULL, draw_state, NULL);
+    // pthread_create(&draw_t, NULL, draw_state, NULL);
 
     /* wait for all trips to complete */
     for (int i = 0; i < PASSENGERS; i++)
