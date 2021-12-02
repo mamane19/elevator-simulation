@@ -22,11 +22,11 @@
 #endif
 
 #ifndef FLOORS
-#define FLOORS 4
+#define FLOORS 8
 #endif
 
 #ifndef PASSENGERS
-#define PASSENGERS 1
+#define PASSENGERS 10
 #endif
 
 #ifndef TRIPS_PER_PASSENGER
